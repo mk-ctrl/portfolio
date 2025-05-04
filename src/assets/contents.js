@@ -1,0 +1,1 @@
+export const myDescription = 'Hey there! I’m an AI explorer, backend tinkerer, and frontend adventurer — building chatbots, quiz apps, and cool projects with React, Node.js & MongoDB. Big fan of hackathons, always hungry to learn, and on a mission to turn crazy ideas into awesome tech!';
