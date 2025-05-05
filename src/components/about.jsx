@@ -1,4 +1,4 @@
-import profile from '../assets/profile.jpeg'
+import profile from '../assets/about.jpeg'
 import { aboutMe } from '../assets/contents'
 import { motion } from 'framer-motion'
 export default function About(){
@@ -19,7 +19,7 @@ export default function About(){
             initial={{y:-100,opacity:0}}
             transition={{delay:0.5,duration:0.5}}
             className="my-20 text-center text-4xl">About <span className="text-neutral-500">Me</span></motion.h1>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap lg:justify-center lg:items-center">
                 <div className="w-full lg:w-1/2 lg:p-8">
                     <div className="flex items-center justify-center">
                         <motion.img 

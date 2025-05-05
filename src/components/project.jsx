@@ -28,7 +28,7 @@ export default function Project(){
                         variants={container(0.5 + index * 0.2, -100, 0.5)}
                         initial="hidden"
                         whileInView="inview"
-                        className="rounded-2xl mb-6 h-70 w-70" src={project.image} alt={project.title} width={150} height={150}/>
+                        className="rounded-2xl mb-6 h-90 w-70" src={project.image} alt={project.title} width={150} height={150}/>
                     </div>
                     <div className=" w-full max-w-xl lg:w-3/4">
                         <motion.h6 
