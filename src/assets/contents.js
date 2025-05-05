@@ -1,4 +1,6 @@
-import profile from './profile.jpeg'
+import one from './1.jpeg'
+import two from './2.jpeg'
+import three from './3.jpg'
 
 export const myDescription = 'Hey there! I’m an AI explorer, backend tinkerer, and frontend adventurer — building chatbots, quiz apps, and cool projects with React, Node.js & MongoDB. Big fan of hackathons, always hungry to learn, and on a mission to turn crazy ideas into awesome tech!';
 
@@ -38,19 +40,19 @@ export const project = [
         title: "AI based Smart Guide for Coastal Regions",
         description: "This app is designed to provide tourists with a hassle-free and enjoyable experience while exploring the beautiful coastal regions of India. It features an interactive map that offers routing to the nearest beaches based on the user’s location, along with a weather prediction tool that forecasts coastal conditions up to one week in advance. To enhance user experience, the app includes a LangChain-based chatbot for friendly and helpful interactions. Future updates will offer hotel booking options near coastal areas at fair prices, making it a complete solution for stress-free coastal travel without the need for a personal guide.",
         status: "Currently under development",
-        image:profile
+        image:one
     },
     {
         title: "AI Shopping Mall Assistant",
         description: "The AI Shopping Mall Assistant is an innovative solution designed to transform the shopping experience by blending convenience, personalization, and smart technology. At its core is an interactive chatbot that provides real-time information on store products, stock levels, and pricing, helping shoppers make faster decisions. The system includes a 3D interactive mall map that guides users along the shortest routes between stores, ensuring efficient navigation. Additional features include an SOS system to locate lost persons or items, an AI-driven parking assistant to help find free spots, and personalized shopping recommendations based on user preferences. The platform also integrates seamless payment options, loyalty rewards, and social features like reviews and shopping groups. To round out the experience, it offers an events and promotions calendar and a smart food court system for reservations and order-ahead services — making it a complete, stress-free solution for modern mall visitors.",
         status: "Currently under development",
-        image:profile
+        image:two
     },
     {
         title: "Quizzet — Play. Learn. Conquer.",
         description:"Quizzet is an exciting and interactive quiz app where you can test your knowledge, challenge friends, and rise to the top of the leaderboard. With a wide range of topics, multiplayer rooms, and real-time feedback, Quizzet makes learning fun and competitive. Get ready to sharpen your mind, have fun, and become the ultimate quiz master!",
         status: "Currently under development",
-        image: profile
+        image: three
     }
 
 ]
