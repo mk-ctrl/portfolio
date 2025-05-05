@@ -8,9 +8,9 @@ export default function Navbar(){
                 <img src={logo} alt="logo" className='w-18 h-20 object-contain'/>
             </div>
             <div className='flex justify-center m-8 items-center gap-4 text-2xl'>
-                <FaLinkedin/>
+                <a href="http://www.linkedin.com/in/mirun-kaushik"><FaLinkedin/></a>
                 <FaGithub/>
-                <FaInstagram/>
+                <a href="https://www.instagram.com/mirunkaushik?igsh=OGgxcm9oaHV4OHdj"><FaInstagram/></a>
                 <FaSquareXTwitter/>
             </div>
         </nav>
