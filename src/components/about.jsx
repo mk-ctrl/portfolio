@@ -1,4 +1,4 @@
-import profile from '../assets/about.jpeg'
+import profile from '../assets/cover.jpg'
 import { aboutMe } from '../assets/contents'
 import { motion } from 'framer-motion'
 export default function About(){
