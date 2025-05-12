@@ -1,5 +1,5 @@
 import {myDescription} from '../assets/contents'
-import profile from '../assets/profile.jpeg'
+import profile from '../assets/profile.HEIC'
 import { motion } from "framer-motion"
 
 export default function Hero(){
