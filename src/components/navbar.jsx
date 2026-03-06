@@ -9,9 +9,9 @@ export default function Navbar(){
             </div>
             <div className='flex justify-center m-8 items-center gap-4 text-2xl'>
                 <a href="http://www.linkedin.com/in/mirun-kaushik"><FaLinkedin/></a>
-                <FaGithub/>
+                <a href="https://github.com/mk-ctrl"><FaGithub/></a>
                 <a href="https://www.instagram.com/mirunkaushik?igsh=OGgxcm9oaHV4OHdj"><FaInstagram/></a>
-                <FaSquareXTwitter/>
+                {/* <FaSquareXTwitter/> */}
             </div>
         </nav>
     )

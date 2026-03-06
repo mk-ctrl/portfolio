@@ -35,7 +35,7 @@ export default function Hero(){
                         whileInView="inview"
                         className="bg-gradient-to-r from-red-500 via-amber-600 to-yellow-200 bg-clip-text text-3xl tracking-tight text-transparent"
                         >
-                        Full Stack Developer
+                        AI/Full Stack Developer
                         </motion.span>
                         <motion.p className='my-2 max-w-xl py-6 font-light tracking-tighter'
                         variants={container(1,-100,0.5)}
