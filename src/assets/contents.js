@@ -102,7 +102,7 @@ export const achievements = [
         year: "2026",
     },
     {
-        title: "Smart Innovation Award — AUC-T Hub",
+        title: "Smart Innovation Award — AIC-T Hub",
         year: "2024",
     },
     {
@@ -110,7 +110,7 @@ export const achievements = [
         year: "",
     },
     {
-        title: "Runner-Up — Hackathon by Saranathan AIDS Dept",
+        title: "Runner-Up — Hackathon by Saranathan AIDS Department",
         year: "2026",
     },
 ]
