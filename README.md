@@ -1,12 +1,21 @@
-# React + Vite
+# mirunkaushik.vercel.app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio of Mirun Kaushik, AI backend engineer.
 
-Currently, two official plugins are available:
+Built with [Astro](https://astro.build), Tailwind CSS v4 and three.js. Static output, deployed on Vercel.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Run it
 
-## Expanding the ESLint configuration
+```bash
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # type-check + static build into dist/
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Where things live
+
+- `src/data/content.ts`: every word on the site, including projects, experience, timeline and skills. Edit this to update content.
+- `src/components/`: one component per home-page section, plus `Flow.astro` for the project flow diagrams.
+- `src/pages/work/[slug].astro`: one case-study page per project.
+- `src/scripts/inkgraph.ts`: the hero's WebGL ink graph. Ink nodes are rules, data and queues; red nodes are model calls.
+- `src/scripts/site.ts`: smooth scroll, scroll reveals, clock, theme toggle, mobile menu.

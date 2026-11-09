@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# private career notes (not for the public repo)
+.context/
+.astro/

@@ -1,0 +1,169 @@
+---
+// A project's data flow, drawn as an ink diagram. Red stages are model calls.
+import type { FlowStep } from '../data/content';
+
+interface Props {
+  steps: FlowStep[];
+  caption?: string;
+  compact?: boolean;
+  legend?: boolean;
+}
+const { steps, caption, compact = false, legend = true } = Astro.props;
+const hasTeam = steps.some((s) => s.team);
+---
+
+<figure class:list={['flow', { 'is-compact': compact }]}>
+  <ol class="flow-list" style={`--n:${steps.length}`}>
+    {
+      steps.map((s, i) => (
+        <li class:list={['flow-step', `k-${s.kind}`, { 'is-team': s.team }]}>
+          <span class="flow-marker" aria-hidden="true" />
+          {i < steps.length - 1 && <span class="flow-link" aria-hidden="true" />}
+          <span class="label flow-n tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+          <span class="flow-label serif">{s.label}</span>
+          {s.sub && <span class="flow-sub">{s.sub}</span>}
+          {s.kind === 'model' && <span class="sr-only">(model call)</span>}
+          {s.team && <span class="flow-team label">Team</span>}
+        </li>
+      ))
+    }
+  </ol>
+  {
+    (legend || caption) && (
+      <figcaption class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
+        {legend && (
+          <>
+            <span class="label flex items-center gap-2">
+              <span class="inline-block size-2 rounded-full bg-accent" /> Model call
+            </span>
+            <span class="label flex items-center gap-2">
+              <span class="inline-block size-2 rounded-full bg-ink" /> Rules, data, queues
+            </span>
+            {hasTeam && (
+              <span class="label flex items-center gap-2">
+                <span class="flow-hatch inline-block size-2.5" /> Built by teammates
+              </span>
+            )}
+          </>
+        )}
+        {caption && <span class="label ml-auto">{caption}</span>}
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .flow-list {
+    display: grid;
+    gap: 1.75rem;
+  }
+  @media (min-width: 768px) {
+    .flow-list {
+      grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+      gap: 0;
+    }
+  }
+  .flow-step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding-left: 1.75rem;
+  }
+  @media (min-width: 768px) {
+    .flow-step {
+      padding-left: 0;
+      padding-top: 1.6rem;
+      padding-right: 1.25rem;
+    }
+  }
+  .flow-marker {
+    position: absolute;
+    left: 0;
+    top: 0.3rem;
+    width: 11px;
+    height: 11px;
+    border: 1.25px solid var(--ink);
+    border-radius: 999px;
+    background: var(--paper);
+    z-index: 1;
+  }
+  @media (min-width: 768px) {
+    .flow-marker { top: 0; }
+  }
+  .k-rule .flow-marker { background: var(--ink); }
+  .k-store .flow-marker,
+  .k-queue .flow-marker { border-radius: 1px; }
+  .k-queue .flow-marker { background: linear-gradient(var(--ink), var(--ink)) center / 100% 1.25px no-repeat, var(--paper); }
+  .k-output .flow-marker { box-shadow: 0 0 0 3px var(--paper), 0 0 0 4.25px var(--ink); }
+  .k-model .flow-marker {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--paper), 0 0 0 5.25px var(--accent);
+  }
+  .is-team .flow-marker {
+    background: repeating-linear-gradient(-45deg, var(--ink) 0 1px, transparent 1px 3px), var(--paper);
+  }
+  .k-model.is-team .flow-marker {
+    background: repeating-linear-gradient(-45deg, var(--accent) 0 1px, transparent 1px 3px), var(--paper);
+  }
+
+  /* connector: vertical on mobile, horizontal with arrowhead on desktop */
+  .flow-link {
+    position: absolute;
+    left: 5px;
+    top: 1.15rem;
+    bottom: -1.6rem;
+    width: 1px;
+    background: var(--rule-strong);
+  }
+  @media (min-width: 768px) {
+    .flow-link {
+      left: 1.15rem;
+      right: 0.35rem;
+      top: 5px;
+      bottom: auto;
+      width: auto;
+      height: 1px;
+    }
+    .flow-link::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: -3px;
+      border: 3.5px solid transparent;
+      border-left: 6px solid var(--rule-strong);
+      border-right: 0;
+    }
+  }
+
+  .flow-label {
+    font-size: 1.15rem;
+    line-height: 1.2;
+  }
+  .k-model .flow-label { color: var(--accent); }
+  .flow-sub {
+    font-size: 0.82rem;
+    line-height: 1.35;
+    color: var(--ink-2);
+  }
+  .flow-n { color: var(--ink-3); }
+  .flow-team {
+    align-self: flex-start;
+    margin-top: 0.15rem;
+    padding: 0.1rem 0.4rem;
+    border: 1px dashed var(--rule-strong);
+    font-size: 0.6rem;
+  }
+  .flow-hatch {
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    background: repeating-linear-gradient(-45deg, var(--ink) 0 1px, transparent 1px 3px);
+  }
+
+  .is-compact .flow-label { font-size: 0.98rem; }
+  .is-compact .flow-sub { display: none; }
+  @media (min-width: 768px) {
+    .is-compact .flow-step { padding-right: 0.75rem; }
+  }
+</style>

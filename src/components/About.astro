@@ -1,0 +1,65 @@
+---
+import SectionHead from './SectionHead.astro';
+import { profile, education, skills, certifications } from '../data/content';
+---
+
+<section id="about" class="wrap pt-28 md:pt-40" aria-labelledby="about-title">
+  <SectionHead n="05" label="About" />
+
+  <div class="mt-12 grid gap-12 md:mt-16 md:grid-cols-12 md:gap-6">
+    <h2 id="about-title" class="lines display text-[clamp(2.4rem,4.8vw,4.6rem)] leading-[0.98] md:col-span-6">
+      <span class="line"><span style="--i:0">I decide the</span></span>
+      <span class="line"><span style="--i:1">architecture,</span></span>
+      <span class="line"><span style="--i:2" class="display-italic">check what</span></span>
+      <span class="line"><span style="--i:3" class="display-italic">the tools write,</span></span>
+      <span class="line"><span style="--i:4">and test it end to end.</span></span>
+    </h2>
+
+    <div class="space-y-5 text-[1.05rem] text-ink-2 md:col-span-5 md:col-start-8 md:pt-3">
+      {profile.about.map((p, i) => <p data-reveal style={`--d:${i}`}>{p}</p>)}
+      <p class="pt-2 text-ink" data-reveal style="--d:3">
+        <span class="label mr-3">Looking for</span>{profile.lookingFor}
+      </p>
+    </div>
+  </div>
+
+  <!-- Toolkit + education: a type specimen rather than a badge wall. -->
+  <div class="mt-24 grid gap-12 border-t border-rule pt-12 md:mt-32 md:grid-cols-12 md:gap-6">
+    <div class="md:col-span-4" data-reveal>
+      <p class="label">Education</p>
+      <p class="mt-6 flex items-baseline gap-3">
+        <span class="display text-[clamp(4.5rem,9vw,8rem)] leading-none">{education.cgpa}</span>
+        <span class="label">CGPA / 10</span>
+      </p>
+      <p class="serif mt-6 text-[1.2rem] leading-snug">{education.degree}</p>
+      <p class="mt-2 text-ink-2">{education.school}, {education.university}</p>
+      <p class="label mt-3 tabular-nums">{education.period} · {education.place}</p>
+
+      <p class="label mt-12">Certified</p>
+      <ul class="mt-4">
+        {
+          certifications.map((c) => (
+            <li class="flex items-baseline justify-between gap-4 border-t border-rule py-3">
+              <span>{c.issuer} {c.title}</span>
+              <span class="label tabular-nums">{c.code}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="md:col-span-7 md:col-start-6">
+      <p class="label" data-reveal>Toolkit</p>
+      <dl class="mt-6 grid gap-x-6 sm:grid-cols-2">
+        {
+          skills.map((s, i) => (
+            <div class="border-t border-rule py-5" data-reveal style={`--d:${i}`}>
+              <dt class="label">{s.group}</dt>
+              <dd class="serif mt-2 text-[1.3rem] leading-snug">{s.items.join(', ')}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>

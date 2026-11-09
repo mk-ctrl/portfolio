@@ -1,0 +1,14 @@
+---
+interface Props {
+  n: string;
+  label: string;
+  id?: string;
+}
+const { n, label, id } = Astro.props;
+---
+
+<div class="flex items-center gap-4" data-reveal id={id}>
+  <span class="label tabular-nums text-ink">{n}</span>
+  <span class="label">{label}</span>
+  <span class="hairline flex-1"></span>
+</div>

@@ -1,0 +1,147 @@
+---
+import SectionHead from './SectionHead.astro';
+import Flow from './Flow.astro';
+import { projects } from '../data/content';
+
+const featured = projects.filter((p) => p.featured);
+const more = projects.filter((p) => !p.featured);
+---
+
+<section id="work" class="pt-28 md:pt-40" aria-labelledby="work-title">
+  <div class="wrap">
+    <SectionHead n="03" label="Selected work" />
+    <div class="mt-12 grid gap-8 md:mt-16 md:grid-cols-12">
+      <h2 id="work-title" class="lines display text-[clamp(2.6rem,6.2vw,6rem)] md:col-span-8">
+        <span class="line"><span style="--i:0">Things I built,</span></span>
+        <span class="line"><span style="--i:1" class="display-italic">and who built the rest.</span></span>
+      </h2>
+      <p class="text-ink-2 md:col-span-3 md:col-start-10 md:self-end" data-reveal>
+        Each project says what I built, what my team built, and what is still only a design.
+      </p>
+    </div>
+  </div>
+
+  <div class="wrap mt-14 md:mt-20" data-work-list>
+    <ol class="border-t border-rule">
+      {
+        featured.map((p, i) => (
+          <li class="border-b border-rule" data-reveal>
+            <a
+              href={`/work/${p.slug}`}
+              class="work-row group relative grid grid-cols-[auto_1fr_auto] items-baseline gap-x-4 gap-y-3 py-7 md:grid-cols-12 md:gap-x-6 md:py-10"
+              data-preview={p.slug}
+            >
+              <span class="label tabular-nums md:col-span-1">{String(i + 1).padStart(2, '0')}</span>
+              <span class="md:col-span-6">
+                <span class="display block text-[clamp(2.2rem,5.4vw,5.2rem)] transition-transform duration-700 ease-[var(--ease-out-expo)] md:group-hover:translate-x-4">
+                  {p.title}
+                </span>
+                <span class="mt-3 block max-w-[46ch] text-ink-2">{p.subtitle}</span>
+              </span>
+              <span class="col-span-3 col-start-2 flex flex-wrap gap-x-5 gap-y-1 md:col-span-4 md:col-start-8 md:flex-col md:gap-2">
+                {p.award ? (
+                  <span class="label text-accent">{p.award}</span>
+                ) : (
+                  <span class="label label-ink">{p.kind}</span>
+                )}
+                <span class="label">{p.stack.slice(0, 4).join(' · ')}</span>
+              </span>
+              <span
+                class="label row-start-1 col-start-3 self-start justify-self-end tabular-nums md:col-span-1 md:col-start-12 md:row-start-auto"
+              >
+                {p.year}
+                <span class="ml-2 inline-block text-ink transition-transform duration-500 group-hover:translate-x-1" aria-hidden="true">→</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="mt-20 grid gap-8 md:grid-cols-12">
+      <p class="label md:col-span-3">Also</p>
+      <ol class="md:col-span-9">
+        {
+          more.map((p) => (
+            <li class="border-b border-rule first:border-t" data-reveal>
+              <a
+                href={`/work/${p.slug}`}
+                class="group grid grid-cols-[1fr_auto] items-baseline gap-x-6 gap-y-1 py-5 md:grid-cols-9"
+                data-preview={p.slug}
+              >
+                <span class="serif text-[1.45rem] leading-tight md:col-span-4">
+                  <span class="link-draw">{p.title}</span>
+                </span>
+                <span class="label label-ink col-start-1 md:col-span-3 md:col-start-5">
+                  {p.kind}
+                  {p.role && <span class="text-ink-3"> · {p.role}</span>}
+                </span>
+                <span class="label row-start-1 col-start-2 tabular-nums md:col-span-2 md:col-start-8 md:text-right">
+                  {p.year}
+                  <span class="ml-2 inline-block text-ink transition-transform duration-500 group-hover:translate-x-1" aria-hidden="true">→</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+
+  <!-- Cursor-following preview of each project's flow. Desktop with a fine pointer only. -->
+  <div
+    data-preview-box
+    class="pointer-events-none fixed left-0 top-0 z-40 hidden w-[min(640px,46vw)] border border-rule-strong bg-paper p-6 opacity-0 shadow-[0_30px_80px_-30px_rgb(0_0_0/0.35)] transition-opacity duration-300"
+    aria-hidden="true"
+  >
+    {
+      projects.map((p) => (
+        <div data-preview-for={p.slug} class="hidden">
+          <p class="label mb-5 flex justify-between">
+            <span>{p.title}</span>
+            <span>Flow</span>
+          </p>
+          <Flow steps={p.flow} compact legend={false} />
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  const box = document.querySelector<HTMLElement>('[data-preview-box]');
+  const fine = matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1024px)').matches;
+  if (box && fine) {
+    box.classList.remove('hidden');
+    let x = 0, y = 0, tx = 0, ty = 0, raf = 0, on = false;
+    const loop = () => {
+      x += (tx - x) * 0.16;
+      y += (ty - y) * 0.16;
+      box.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      if (on || Math.abs(tx - x) > 0.5) raf = requestAnimationFrame(loop);
+    };
+    const place = (e: PointerEvent) => {
+      const w = box.offsetWidth, h = box.offsetHeight;
+      tx = Math.min(e.clientX + 32, window.innerWidth - w - 24);
+      ty = Math.min(Math.max(e.clientY - h / 2, 24), window.innerHeight - h - 24);
+    };
+    document.querySelectorAll<HTMLElement>('[data-preview]').forEach((row) => {
+      row.addEventListener('pointerenter', (e) => {
+        box.querySelectorAll<HTMLElement>('[data-preview-for]').forEach((el) => {
+          el.classList.toggle('hidden', el.dataset.previewFor !== row.dataset.preview);
+        });
+        place(e);
+        if (!on) { x = tx; y = ty; }
+        on = true;
+        box.style.opacity = '1';
+        cancelAnimationFrame(raf);
+        loop();
+      });
+      row.addEventListener('pointermove', place);
+      row.addEventListener('pointerleave', () => {
+        on = false;
+        box.style.opacity = '0';
+      });
+    });
+  }
+</script>

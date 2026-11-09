@@ -1,0 +1,17 @@
+---
+import { profile } from '../data/content';
+const year = new Date().getFullYear();
+---
+
+<footer class="wrap pb-8 pt-16">
+  <div class="hairline"></div>
+  <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <p class="label">© {year} {profile.name}</p>
+    <ul class="flex gap-6">
+      <li><a class="label label-ink link-draw" href={`mailto:${profile.email}`}>Email</a></li>
+      <li><a class="label label-ink link-draw" href={profile.links.github} rel="me noopener" target="_blank">GitHub</a></li>
+      <li><a class="label label-ink link-draw" href={profile.links.linkedin} rel="me noopener" target="_blank">LinkedIn</a></li>
+    </ul>
+    <p class="label">Set in Fraunces &amp; Hanken Grotesk</p>
+  </div>
+</footer>
