@@ -1,0 +1,46 @@
+---
+import SectionHead from './SectionHead.astro';
+import Flow from './Flow.astro';
+import { experience } from '../data/content';
+---
+
+<section id="experience" class="wrap pt-28 md:pt-40" aria-labelledby="exp-title">
+  <SectionHead n="04" label="Experience" />
+  <h2 id="exp-title" class="sr-only">Experience</h2>
+
+  <div class="mt-12 md:mt-16">
+    {
+      experience.map((job, j) => (
+        <article class:list={['grid gap-8 py-12 md:grid-cols-12 md:gap-6 md:py-16', j > 0 && 'border-t border-rule']}>
+          <header class="md:col-span-4" data-reveal>
+            <p class="label tabular-nums">{job.period}</p>
+            <h3 class="display mt-4 text-[clamp(2.8rem,5.6vw,5.4rem)]">{job.company}</h3>
+            <p class="serif mt-4 text-[1.2rem]">{job.role}</p>
+            <p class="label mt-2">{job.product} · {job.place}</p>
+          </header>
+
+          <div class="md:col-span-7 md:col-start-6">
+            <p class="serif text-[1.25rem] leading-[1.5] text-ink-2 md:text-[1.35rem]" data-reveal>{job.context}</p>
+
+            <p class="label mt-10" data-reveal>What I built</p>
+            <ol class="mt-4">
+              {job.built.map((b, i) => (
+                <li class="grid grid-cols-[2.25rem_1fr] border-t border-rule py-4" data-reveal style={`--d:${i}`}>
+                  <span class="label tabular-nums pt-1">{String(i + 1).padStart(2, '0')}</span>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ol>
+
+            {job.flow && (
+              <div class="mt-12 border-t border-rule pt-8" data-reveal>
+                <p class="label mb-8">How a campaign moves through it</p>
+                <Flow steps={job.flow} />
+              </div>
+            )}
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>

@@ -1,0 +1,71 @@
+---
+import SectionHead from './SectionHead.astro';
+import { profile } from '../data/content';
+
+const steps = 9;
+const modelAt = 6;
+---
+
+<section id="approach" class="wrap pt-28 md:pt-40" aria-labelledby="approach-title">
+  <SectionHead n="01" label="Approach" />
+
+  <div class="mt-12 grid gap-10 md:mt-16 md:grid-cols-12">
+    <h2 id="approach-title" class="lines display text-[clamp(2.8rem,7.4vw,7.2rem)] md:col-span-10">
+      <span class="line"><span style="--i:0">Rules first.</span></span>
+      <span class="line"><span style="--i:1"><span class="display-italic text-accent">The model</span> only</span></span>
+      <span class="line"><span style="--i:2">where it earns its place.</span></span>
+    </h2>
+
+    <div class="md:col-span-5 md:col-start-2" data-reveal>
+      <p class="serif text-[1.3rem] leading-[1.45] md:text-[1.45rem]">{profile.approach}</p>
+    </div>
+    <div class="md:col-span-4 md:col-start-8" data-reveal style="--d:2">
+      <p class="text-ink-2">
+        Before anything reaches a model, I structure it with ontology rules: what a medical report says, or which claim on a web page is worth checking.
+        What’s left is small and specific, and that is the only part a model sees.
+      </p>
+      <p class="mt-4 text-ink-2">
+        I used it in{' '}<a href="/work/health-link" class="link-rule text-ink">Health Link</a>{' '}and{' '}<a href="/work/mind-armor" class="link-rule text-ink">Mind Armor</a>.
+      </p>
+    </div>
+  </div>
+
+  <!-- Schematic: the same pipeline, two ways. Not a measurement. -->
+  <figure class="mt-20 border-y border-rule py-10 md:mt-28" data-reveal>
+    {
+      [
+        { name: 'A model at every step', red: (_: number) => true, muted: true },
+        { name: 'Rules first', red: (i: number) => i === modelAt, muted: false },
+      ].map((row, r) => (
+        <div class:list={['grid items-center gap-4 py-5 md:grid-cols-12', r === 0 && 'border-b border-dashed border-rule']}>
+          <p class:list={['label md:col-span-3', !row.muted && 'label-ink']}>{row.name}</p>
+          <ol class="relative flex items-center justify-between md:col-span-9" aria-hidden="true">
+            <span class="absolute inset-x-0 top-1/2 h-px bg-rule-strong" />
+            {Array.from({ length: steps }, (_, i) => (
+              <li
+                class:list={[
+                  'relative grid size-6 place-items-center rounded-full bg-paper transition-[transform,opacity] duration-700',
+                  row.muted && 'opacity-55',
+                ]}
+                data-reveal
+                style={`--d:${i + r * 3}`}
+              >
+                <span
+                  class:list={[
+                    'block rounded-full',
+                    row.red(i) ? 'size-3 bg-accent' : 'size-2.5 bg-ink',
+                    row.red(i) && !row.muted && 'ring-1 ring-accent ring-offset-4 ring-offset-paper',
+                  ]}
+                />
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))
+    }
+    <figcaption class="label mt-6 flex flex-wrap justify-between gap-2">
+      <span><span class="text-ink-2">Fig. 2</span> — The same pipeline, two ways. A schematic, not a benchmark.</span>
+      <span>Fewer calls · fewer surprises · cheaper to run</span>
+    </figcaption>
+  </figure>
+</section>

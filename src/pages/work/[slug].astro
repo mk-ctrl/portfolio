@@ -1,0 +1,166 @@
+---
+import Base from '../../layouts/Base.astro';
+import Flow from '../../components/Flow.astro';
+import { projects, type Project } from '../../data/content';
+
+export function getStaticPaths() {
+  return projects.map((p, i) => ({
+    params: { slug: p.slug },
+    props: { project: p, next: projects[(i + 1) % projects.length], index: i },
+  }));
+}
+
+interface Props {
+  project: Project;
+  next: Project;
+  index: number;
+}
+const { project: p, next, index } = Astro.props;
+
+const status = p.kind === 'In design' ? 'In design' : p.notBuilt?.length ? 'Built, with parts designed or planned' : 'Built';
+const sections = [
+  { key: 'problem', title: 'Problem' },
+  { key: 'approach', title: 'Approach' },
+];
+let n = 0;
+const num = () => String(++n).padStart(2, '0');
+---
+
+<Base title={`${p.title} — Mirun Kaushik`} description={`${p.subtitle}. ${p.problem}`}>
+  <article class="wrap pt-32 md:pt-40">
+    <a href="/#work" class="label label-ink group inline-flex items-center gap-2">
+      <span class="inline-block transition-transform group-hover:-translate-x-1">←</span> All work
+    </a>
+
+    <header class="mt-12 md:mt-16">
+      <p class="label flex flex-wrap gap-x-4 gap-y-1" data-reveal>
+        <span class="tabular-nums text-ink">{String(index + 1).padStart(2, '0')}</span>
+        <span>{p.kind}</span>
+        <span class="tabular-nums">{p.year}</span>
+        {p.award && <span class="text-accent">{p.award}</span>}
+      </p>
+      <h1 class="lines display mt-6 text-[clamp(3.4rem,11vw,11rem)]">
+        <span class="line"><span style="--i:0">{p.title}</span></span>
+      </h1>
+      <p class="display-italic mt-6 max-w-[26ch] text-[clamp(1.6rem,3vw,2.6rem)] leading-[1.15] text-ink-2" data-reveal style="--d:3">
+        {p.subtitle}
+      </p>
+    </header>
+
+    <dl class="mt-16 grid grid-cols-2 gap-x-6 gap-y-8 border-y border-rule py-8 md:mt-24 md:grid-cols-4" data-reveal>
+      <div>
+        <dt class="label">My part</dt>
+        <dd class="mt-2">{p.role}</dd>
+      </div>
+      <div>
+        <dt class="label">Status</dt>
+        <dd class="mt-2">{status}</dd>
+      </div>
+      <div class="col-span-2 md:col-span-1">
+        <dt class="label">Stack</dt>
+        <dd class="mt-2">{p.stack.join(', ')}</dd>
+      </div>
+      <div class="col-span-2 md:col-span-1">
+        <dt class="label">Code</dt>
+        <dd class="mt-2">
+          <a href={p.repo} target="_blank" rel="noopener" class="link-rule">GitHub ↗</a>
+          {p.repoNote && <span class="block text-[0.9rem] text-ink-3">{p.repoNote}</span>}
+        </dd>
+      </div>
+    </dl>
+
+    <figure class="mt-16 md:mt-24" data-reveal>
+      <p class="label mb-10 flex justify-between">
+        <span><span class="text-ink-2">Fig.</span> — How data moves through it</span>
+        <span class="hidden sm:inline">Read left to right</span>
+      </p>
+      <Flow steps={p.flow} />
+    </figure>
+
+    <div class="mt-24 md:mt-32">
+      {
+        sections.map((s) => (
+          <section class="grid gap-6 border-t border-rule py-12 md:grid-cols-12 md:py-16">
+            <h2 class="label md:col-span-3" data-reveal>
+              <span class="mr-3 text-ink">{num()}</span>
+              {s.title}
+            </h2>
+            <p class="serif text-[1.4rem] leading-[1.45] md:col-span-8 md:col-start-5 md:text-[1.7rem]" data-reveal>
+              {p[s.key as 'problem' | 'approach']}
+            </p>
+          </section>
+        ))
+      }
+
+      <section class="grid gap-6 border-t border-rule py-12 md:grid-cols-12 md:py-16">
+        <h2 class="label md:col-span-3" data-reveal><span class="mr-3 text-ink">{num()}</span>What I built</h2>
+        <ol class="md:col-span-8 md:col-start-5">
+          {
+            p.iBuilt.map((b, i) => (
+              <li class="grid grid-cols-[2.5rem_1fr] border-b border-rule py-5 first:pt-0 last:border-0" data-reveal style={`--d:${i}`}>
+                <span class="label tabular-nums pt-1.5">{String(i + 1).padStart(2, '0')}</span>
+                <span class="text-[1.1rem] leading-relaxed">{b}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      {
+        p.teamBuilt && (
+          <section class="grid gap-6 border-t border-rule py-12 md:grid-cols-12 md:py-16">
+            <h2 class="label md:col-span-3" data-reveal>
+              <span class="mr-3 text-ink">{num()}</span>Built by my teammates
+            </h2>
+            <ul class="md:col-span-8 md:col-start-5">
+              {p.teamBuilt.map((b, i) => (
+                <li class="flex gap-4 py-2 text-ink-2" data-reveal style={`--d:${i}`}>
+                  <span class="mt-[0.7em] block h-px w-4 shrink-0 bg-ink-3" aria-hidden="true" />
+                  {b}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        p.notBuilt && (
+          <section class="grid gap-6 border-t border-rule py-12 md:grid-cols-12 md:py-16">
+            <h2 class="label md:col-span-3" data-reveal>
+              <span class="mr-3 text-ink">{num()}</span>Not built yet
+            </h2>
+            <ul class="md:col-span-8 md:col-start-5">
+              {p.notBuilt.map((b, i) => (
+                <li class="grid gap-2 border-b border-dashed border-rule py-4 first:pt-0 last:border-0 sm:grid-cols-[7rem_1fr]" data-reveal style={`--d:${i}`}>
+                  <span class="label self-start border border-dashed border-rule-strong px-2 py-0.5 text-center sm:mr-4">{b.status}</span>
+                  <span class="text-ink-2">{b.text}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        p.note && (
+          <p class="label border-t border-rule pt-6" data-reveal>
+            Note — {p.note}
+          </p>
+        )
+      }
+    </div>
+  </article>
+
+  <nav class="wrap mt-24 md:mt-32" aria-label="Next project">
+    <a href={`/work/${next.slug}`} class="group block border-t border-rule pt-8">
+      <p class="label flex justify-between">
+        <span>Next project</span>
+        <span class="tabular-nums">{next.year}</span>
+      </p>
+      <p class="display mt-6 text-[clamp(2.8rem,9vw,9rem)] transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-4">
+        {next.title} <span class="display-italic text-accent">→</span>
+      </p>
+    </a>
+  </nav>
+</Base>

@@ -1,0 +1,70 @@
+---
+import SectionHead from './SectionHead.astro';
+import { timeline } from '../data/content';
+---
+
+<section id="path" class="wrap pt-28 md:pt-40" aria-labelledby="path-title">
+  <SectionHead n="02" label="Path" />
+
+  <div class="mt-12 grid gap-8 md:mt-16 md:grid-cols-12">
+    <h2 id="path-title" class="lines display text-[clamp(2.6rem,6.2vw,6rem)] md:col-span-8">
+      <span class="line"><span style="--i:0">From hackathon stages</span></span>
+      <span class="line"><span style="--i:1" class="display-italic">to production code.</span></span>
+    </h2>
+    <p class="text-ink-2 md:col-span-3 md:col-start-10 md:self-end" data-reveal>
+      Three podium finishes in two years. The second place at Hackwell turned into an internship offer from Euredas.ai, and from there I moved to production work at Botcadence.
+    </p>
+  </div>
+
+  <div class="relative mt-16 md:mt-24" data-draw-group>
+    <!-- The ink line, drawn as you scroll it into view. Desktop: horizontal brush stroke. -->
+    <svg
+      class="pointer-events-none absolute left-0 top-[9px] hidden h-6 w-full md:block"
+      viewBox="0 0 1000 24"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <path
+        data-draw
+        pathLength="1"
+        d="M2 12 C 120 9, 220 15, 340 11 S 560 8, 680 13 S 880 10, 998 12"
+        fill="none"
+        stroke="var(--ink)"
+        stroke-width="1.4"
+        vector-effect="non-scaling-stroke"
+        stroke-linecap="round"
+      ></path>
+    </svg>
+    <span class="absolute bottom-0 left-[5px] top-2 w-px bg-rule-strong md:hidden" aria-hidden="true"></span>
+
+    <ol class="grid gap-10 md:grid-cols-5 md:gap-6">
+      {
+        timeline.map((t, i) => {
+          const isJob = !t.link;
+          const Tag = t.link ? 'a' : 'div';
+          return (
+            <li class="relative pl-8 md:pl-0 md:pt-12" data-reveal style={`--d:${i * 2 + 2}`}>
+              <span
+                class:list={[
+                  'absolute left-0 top-1 block size-[11px] rounded-full border-[1.25px] md:top-[15px]',
+                  isJob ? 'border-accent bg-accent' : 'border-ink bg-paper',
+                ]}
+                aria-hidden="true"
+              />
+              <Tag href={t.link ? `/work/${t.link}` : undefined} class:list={['group block', t.link && 'cursor-pointer']}>
+                <p class="label tabular-nums">{t.date}</p>
+                <p class:list={['serif mt-3 text-[1.35rem] leading-tight', t.link && 'link-draw']}>{t.title}</p>
+                <p class="mt-2 text-[0.95rem] leading-snug text-ink-2">{t.detail}</p>
+                {t.link && (
+                  <p class="label mt-3 transition-colors group-hover:text-accent">
+                    See project <span class="inline-block transition-transform group-hover:translate-x-1">→</span>
+                  </p>
+                )}
+              </Tag>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,73 @@
+---
+import { profile, experience } from '../data/content';
+const now = experience[0];
+const before = experience[1];
+---
+
+<section class="relative isolate flex min-h-[100svh] flex-col overflow-hidden" aria-labelledby="hero-title">
+  <!-- Fig. 1: the ink graph (WebGL). Purely decorative; the text says everything it shows. -->
+  <div data-ink-host class="absolute inset-0 -z-10 cursor-grab max-md:bottom-auto max-md:h-[52svh]">
+    <div data-ink-labels class="pointer-events-none absolute inset-0 overflow-hidden"></div>
+  </div>
+
+  <div class="wrap relative mt-auto pb-8 pt-[46svh] md:pb-10 md:pt-36">
+    <div class="pointer-events-none">
+      <p class="label label-ink" data-reveal style="--d:2">
+        {profile.role} <span class="mx-2 text-ink-3">/</span> India
+      </p>
+
+      <h1 id="hero-title" class="lines display mt-4 text-[clamp(4.6rem,17vw,16.5rem)]" style="--base:150ms">
+        <span class="line"><span style="--i:0">Mirun</span></span>
+        <span class="line"><span style="--i:1" class="display-italic -ml-[0.04em]">Kaushik</span></span>
+      </h1>
+    </div>
+
+    <div class="mt-8 grid gap-8 md:mt-12 md:grid-cols-12 md:items-end">
+      <p class="serif text-[1.35rem] leading-[1.35] text-ink-2 md:col-span-6 md:text-[1.6rem] lg:col-span-5" data-reveal style="--d:6">
+        I build the backend that AI products run on. <span class="text-ink">Rules first, and a model only where it earns its place.</span>
+      </p>
+
+      <dl class="grid grid-cols-2 gap-6 md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9" data-reveal style="--d:8">
+        <div>
+          <dt class="label">Now</dt>
+          <dd class="mt-2 leading-snug">{now.role}<br /><span class="text-ink-2">{now.company}</span></dd>
+        </div>
+        <div>
+          <dt class="label">Before</dt>
+          <dd class="mt-2 leading-snug">{before.role}<br /><span class="text-ink-2">{before.company}</span></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="mt-10 flex items-end justify-between gap-6 md:mt-14" data-reveal style="--d:10">
+      <a href="#approach" class="label label-ink group flex items-center gap-3">
+        <span class="relative block h-10 w-px overflow-hidden bg-rule">
+          <span class="absolute inset-x-0 top-0 h-1/2 bg-ink motion-safe:animate-[drip_2.4s_var(--ease-in-out-quart)_infinite]"></span>
+        </span>
+        Scroll
+      </a>
+      <p class="label hidden max-w-[34ch] text-right sm:block">
+        <span class="text-ink-2">Fig. 1</span> — The things I work with. Ink for rules, data and queues;
+        <span class="text-accent">red where a model is called</span>. Drag to turn it.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes drip {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(200%); }
+  }
+</style>
+
+<script>
+  const host = document.querySelector<HTMLElement>('[data-ink-host]');
+  const labels = document.querySelector<HTMLElement>('[data-ink-labels]');
+  if (host && labels) {
+    const start = () =>
+      import('../scripts/inkgraph').then(({ mountInkGraph }) => mountInkGraph(host, labels));
+    if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 900 });
+    else setTimeout(start, 200);
+  }
+</script>

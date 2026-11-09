@@ -1,0 +1,103 @@
+---
+import { profile } from '../data/content';
+
+const nav = [
+  { href: '/#work', label: 'Work' },
+  { href: '/#path', label: 'Path' },
+  { href: '/#experience', label: 'Experience' },
+  { href: '/#about', label: 'About' },
+  { href: '/#contact', label: 'Contact' },
+];
+---
+
+<header
+  data-header
+  class="fixed inset-x-0 top-0 z-50 transition-transform duration-700 ease-[var(--ease-out-expo)] [&.is-hidden]:-translate-y-full"
+>
+  <div
+    class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-paper via-paper/85 to-transparent"
+    aria-hidden="true"
+  >
+  </div>
+  <div class="wrap grid grid-cols-[1fr_auto] items-center gap-6 py-5 md:grid-cols-[1fr_auto_1fr]">
+    <a href="/" class="group flex items-baseline gap-2" aria-label={`${profile.name}, home`}>
+      <span class="serif text-[1.15rem] leading-none tracking-tight">Mirun Kaushik</span>
+      <span class="label hidden transition-colors group-hover:text-accent sm:inline">AI backend</span>
+    </a>
+
+    <nav aria-label="Primary" class="hidden md:block">
+      <ul class="flex items-center gap-7">
+        {
+          nav.map((n) => (
+            <li>
+              <a href={n.href} class="label label-ink link-draw py-1 transition-colors hover:text-ink">
+                {n.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center justify-end gap-5">
+      <p class="label hidden tabular-nums lg:block" aria-label="Local time in Tiruchirappalli">
+        {profile.location} <span data-clock>--:--</span> IST
+      </p>
+      <div class="flex items-center gap-1.5" role="group" aria-label="Colour theme">
+        <button
+          type="button"
+          data-theme-set="light"
+          aria-label="Light theme"
+          class="grid size-6 place-items-center"
+        >
+          <span class="block size-3 rounded-full border border-ink bg-[#f3efe6] transition-transform hover:scale-125"></span>
+        </button>
+        <button
+          type="button"
+          data-theme-set="dark"
+          aria-label="Dark theme"
+          class="grid size-6 place-items-center"
+        >
+          <span class="block size-3 rounded-full border border-ink bg-[#16130f] transition-transform hover:scale-125"></span>
+        </button>
+      </div>
+      <button
+        type="button"
+        data-menu-open
+        class="label label-ink md:hidden"
+        aria-expanded="false"
+        aria-controls="menu">Menu</button
+      >
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu: full-screen index. -->
+<div
+  id="menu"
+  data-menu
+  class="invisible fixed inset-0 z-[55] flex flex-col bg-paper opacity-0 transition-[opacity,visibility] duration-500 [&.is-open]:visible [&.is-open]:opacity-100"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menu"
+>
+  <div class="wrap flex items-center justify-between py-5">
+    <span class="serif text-[1.15rem] leading-none">Mirun Kaushik</span>
+    <button type="button" data-menu-close class="label label-ink">Close</button>
+  </div>
+  <nav class="wrap mt-auto pb-10" aria-label="Mobile">
+    <ol class="border-t border-rule">
+      {
+        nav.map((n, i) => (
+          <li class="border-b border-rule">
+            <a href={n.href} data-menu-link class="flex items-baseline justify-between py-4">
+              <span class="display text-5xl">{n.label}</span>
+              <span class="label">0{i + 1}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="label mt-6 tabular-nums">{profile.location} <span data-clock>--:--</span> IST</p>
+  </nav>
+</div>
